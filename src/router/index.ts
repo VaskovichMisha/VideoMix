@@ -1,20 +1,38 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import FirstVideoUpload from "@/layouts/FirstVideoUpload/FirstVideoUpload.vue";
+import SecondVideoUpload from "@/layouts/SecondVideoUpload/SecondVideoUpload.vue";
+import SuccessUpload from "@/views/SecondVideo/SuccessUpload/SuccessUpload.vue";
+import AddSticker from "@/views/SecondVideo/AddSticker/AddSticker.vue";
+import AvailableDownload from "@/views/SecondVideo/AvailableDownload/AvailableDownload.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    redirect: '/first-video'
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/first-video',
+    component: FirstVideoUpload
+  },
+  {
+    path: '/second-video',
+    component: SecondVideoUpload,
+
+    children: [
+      {
+        path: '/second-video/success-upload',
+        component: SuccessUpload,
+      },
+      {
+        path: '/second-video/add-sticker',
+        component: AddSticker,
+      },
+      {
+        path: '/second-video/available-download',
+        component: AvailableDownload,
+      },
+    ]
+  },
 ]
 
 const router = createRouter({

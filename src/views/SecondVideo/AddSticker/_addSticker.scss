@@ -1,0 +1,33 @@
+.add-sticker {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    &__title {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    &__block {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: 16px;
+
+        & > span {
+            font-size: 12px;
+            color: #979797;
+        }
+
+        & > button {
+            font-size: 14px;
+            color: #A34AF6;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+}
