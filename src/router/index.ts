@@ -4,6 +4,7 @@ import SecondVideoUpload from "@/layouts/SecondVideoUpload/SecondVideoUpload.vue
 import SuccessUpload from "@/views/SecondVideo/SuccessUpload/SuccessUpload.vue";
 import AddSticker from "@/views/SecondVideo/AddSticker/AddSticker.vue";
 import AvailableDownload from "@/views/SecondVideo/AvailableDownload/AvailableDownload.vue";
+import SelectSecondVideo from "@/views/SecondVideo/SelectSecondVideo/SelectSecondVideo.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,6 +20,10 @@ const routes: Array<RouteRecordRaw> = [
     component: SecondVideoUpload,
 
     children: [
+      {
+        path: '/second-video',
+        component: SelectSecondVideo,
+      },
       {
         path: '/second-video/success-upload',
         component: SuccessUpload,
