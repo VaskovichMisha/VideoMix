@@ -1,13 +1,13 @@
 <template>
   <div class="upload" ref="container">
     <video
-        v-if="videoUrl"
+        v-if="videoUrl && !loadingFiles"
         :src="videoUrl"
         class="upload__video"
         autoplay
         loop="loop"
     />
-    <div class="upload__content">
+    <div v-if="!loadingFiles" class="upload__content">
       <img src="@/assets/svg/video-upload.svg" alt="">
       <span>Загрузите или перетащите вертикальное видео формата mp4 до 30 Мб</span>
     </div>
@@ -22,12 +22,12 @@
           accept="video/*"
       >
     </div>
-    <div v-if="false" class="upload__loader">
+    <div v-if="loadingFiles" class="upload__loader">
       <Loader />
       <span>Идет загрузка видео...</span>
     </div>
     <img
-        v-if="urlSticker"
+        v-if="urlSticker && !loadingFiles"
         ref="sticker"
         class="upload__sticker"
         :src="urlSticker" alt=""
@@ -39,8 +39,12 @@
 </template>
 
 <script setup lang="ts">
-import { Ref, ref, defineProps, defineEmits, PropType , onUnmounted, watch } from 'vue';
 import Loader from "@/components/UI/loader/loader.vue";
+
+import { Ref, ref, defineProps, defineEmits, PropType, onUnmounted, watch, computed } from 'vue';
+import { useStore } from "vuex";
+
+const store = useStore()
 
 const props = defineProps({
   fileUploaded: {
@@ -48,12 +52,20 @@ const props = defineProps({
   },
   urlSticker: {
     type: [String, null] as PropType<String | null>
+  },
+  loadingFiles: {
+    type: Boolean,
+    default: false
   }
 })
 
 const emit = defineEmits(['upload-file'])
 
 const videoUrl: Ref<string> = ref('')
+
+const urlDownloadVideo = computed(() => {
+  return store.state.video.urlDownloadVideo
+})
 
 let startX = 0
 let startY = 0

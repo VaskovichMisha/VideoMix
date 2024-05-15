@@ -5,10 +5,19 @@
           @upload-file="uploadFile"
           :fileUploaded="fileUploaded"
           :urlSticker="urlSticker"
+          :loadingFiles="loadingVideoTwo"
       />
+      <div v-if="loadingVideoTwo" class="second-video__load">
+        <span>Подождите, пока загрузится второе видео</span>
+      </div>
       <RouterView
+          v-if="!loadingVideoTwo"
           @back-upload="backUpload"
+          @success-upload="successUpload"
           @upload-sticker="uploadSticker"
+          @skip-add-sticker="skipAddSticker"
+          @back-sticker="backSticker"
+          @start-processing="startProcessing"
       />
     </div>
   </div>
@@ -18,9 +27,11 @@
 import UploadVideo from "@/components/UploadVideo/UploadVideo.vue";
 
 import router from "@/router";
-import { onMounted, ref, Ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import { useStore } from 'vuex'
+import checkbox from "@/components/UI/Checkbox/Checkbox.vue";
+
 const store = useStore()
 
 const fileUploaded = ref<File | null>(null)
@@ -38,25 +49,53 @@ const dataVideoProcessing = ref({
   invisible_object: false
 })
 
+const loadingVideoTwo = ref(false)
+
+watch(() => store.state.video.loadingFiles.video2_url, (newValue) => {
+  loadingVideoTwo.value = newValue
+})
+
 const uploadFile = (file: File) => {
   fileUploaded.value = file
   router.push('/second-video/success-upload')
+  store.dispatch('video/downloadFile', { file: file, type: 'video', key: 'video2_url' })
 
-  const fullURL = window.location.href
-  const baseURL = new URL(fullURL).origin + '/'
-  const url = baseURL + encodeURIComponent(file.name)
-
-  dataVideoProcessing.value.video2_url = url
-  console.log(dataVideoProcessing.value)
+  loadingVideoTwo.value = true
 }
 
 const backUpload = () => {
   fileUploaded.value = null
 }
 
+const successUpload = () => {
+  dataVideoProcessing.value.video2_url = store.state.video.stateVideoProcessing.video2_url
+}
+
 const uploadSticker = (file: File) => {
+  router.push('/second-video/success-sticker')
   urlSticker.value = URL.createObjectURL(file)
-  console.log(urlSticker.value)
+  store.dispatch('video/downloadFile', { file: file, type: 'sticker', key: 'image_url' })
+}
+
+const skipAddSticker = () => {
+  dataVideoProcessing.value.video2_url = store.state.video.stateVideoProcessing.video2_url
+  store.dispatch("video/videoProcessing", dataVideoProcessing.value)
+}
+
+const startProcessing = () => {
+  store.dispatch("video/videoProcessing", dataVideoProcessing.value)
+}
+
+const backSticker = () => {
+  dataVideoProcessing.value.image_url = ''
+  urlSticker.value = null
+}
+
+const generateCopy = () => {
+  console.log(111)
+  if (store.state.video.uploadCheckboxes.some((checkbox: any) => checkbox.checked)) {
+    store.dispatch("video/videoProcessing", dataVideoProcessing.value)
+  }
 }
 
 const handleCheckboxChange = () => {
@@ -84,7 +123,8 @@ const handleCheckboxChange = () => {
 }
 
 onMounted(() => {
-  dataVideoProcessing.value.video1_url = store.state.video.uploadedVideo
+  dataVideoProcessing.value.video1_url = store.state.video.stateVideoProcessing.video1_url
+  console.log(dataVideoProcessing.value)
   handleCheckboxChange()
 })
 </script>

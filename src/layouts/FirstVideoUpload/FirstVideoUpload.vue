@@ -4,11 +4,15 @@
       <UploadVideo
           @upload-file="uploadFile"
           :fileUploaded="fileUploaded"
+          :loadingFiles="loadingVideoOne"
       />
       <div class="first-video__content">
         <div v-if="!fileUploaded" class="first-video__without-video">
           <span>Загрузите видео, чтобы начать работу с сервисом</span>
           <span>Уникализация повышает шанс попасть в рекомендации, чтобы получать бесплатный органический трафик.</span>
+        </div>
+        <div v-else-if="loadingVideoOne" class="first-video__without-video">
+          <span>Подождите, пока загрузится видео</span>
         </div>
         <div v-else class="first-video__select-options">
           <div class="first-video__block">
@@ -47,7 +51,7 @@ import Checkbox from "@/components/UI/Checkbox/Checkbox.vue";
 
 import router from "@/router";
 import { useStore } from 'vuex';
-import { ref } from "vue";
+import { computed, ref, watch} from "vue";
 
 const store = useStore()
 
@@ -63,19 +67,21 @@ const checkboxes = ref([
 
 const fileUploaded = ref<File | null>(null)
 
+const loadingVideoOne = ref(false)
+
+watch(() => store.state.video.loadingFiles.video1_url, (newValue) => {
+  loadingVideoOne.value = newValue
+})
 
 const uploadFile = (file: File) => {
   fileUploaded.value = file
-
-  const fullURL = window.location.href
-  const baseURL = new URL(fullURL).origin + '/'
-  const url = baseURL + encodeURIComponent(file.name)
-
-  store.dispatch('video/uploadVideo', url)
+  store.dispatch('video/downloadFile', { file: file, type: 'video', key: 'video1_url' })
+  loadingVideoOne.value = true
 }
 
 const backUpload = () => {
   fileUploaded.value = null
+  store.commit('video/CLEAR_LOADING_FILES', 'video1_url')
 }
 
 const handleCheckboxChange = (id: number, isChecked: boolean) => {

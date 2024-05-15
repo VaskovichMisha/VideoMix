@@ -14,7 +14,7 @@
         />
       </div>
       <span>* Поддерживаемые форматы jpg, png и gif</span>
-      <button @click="$router.push('/second-video/available-download')">Пропустить шаг</button>
+      <button @click="skipAddSticker">Пропустить шаг</button>
     </div>
   </div>
 </template>
@@ -24,25 +24,34 @@ import Button from "@/components/UI/Button/Button.vue";
 
 import { defineEmits } from 'vue'
 import router from "@/router";
+import { useStore } from "vuex";
+
+const store = useStore()
 
 const emits = defineEmits([
   'back-upload',
-  'upload-sticker'
+  'upload-sticker',
+  'skip-add-sticker'
 ])
+
 const backUpload = () => {
   emits('back-upload')
   router.push('/second-video')
+  store.commit('video/CLEAR_LOADING_FILES', 'video2_url')
 }
 
 const handleStickerUpload = (event: Event) => {
   const target = event.target as HTMLInputElement
   const file = target.files?.[0]
 
-  if (file !== null && file !== undefined) {
+  if(file !== null && file !== undefined) {
     emits('upload-sticker', file)
   }
+}
 
-  console.log(file)
+const skipAddSticker = () => {
+  router.push('/available-download')
+  emits('skip-add-sticker')
 }
 
 </script>

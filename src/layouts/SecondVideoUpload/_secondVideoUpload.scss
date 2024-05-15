@@ -7,6 +7,12 @@
         padding: 24px 0;
     }
 
+    &__load {
+        font-weight: 600;
+        font-size: 16px;
+        color: #000000;
+    }
+
     &__select-options {
         display: flex;
         flex-direction: column;

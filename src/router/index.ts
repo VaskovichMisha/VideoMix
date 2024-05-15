@@ -3,8 +3,9 @@ import FirstVideoUpload from "@/layouts/FirstVideoUpload/FirstVideoUpload.vue";
 import SecondVideoUpload from "@/layouts/SecondVideoUpload/SecondVideoUpload.vue";
 import SuccessUpload from "@/views/SecondVideo/SuccessUpload/SuccessUpload.vue";
 import AddSticker from "@/views/SecondVideo/AddSticker/AddSticker.vue";
-import AvailableDownload from "@/views/SecondVideo/AvailableDownload/AvailableDownload.vue";
+import AvailableDownload from "@/layouts/AvailableDownload/AvailableDownload.vue";
 import SelectSecondVideo from "@/views/SecondVideo/SelectSecondVideo/SelectSecondVideo.vue";
+import SuccessSticker from "@/views/SecondVideo/SuccessSticker/SuccessSticker.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,10 +34,14 @@ const routes: Array<RouteRecordRaw> = [
         component: AddSticker,
       },
       {
-        path: '/second-video/available-download',
-        component: AvailableDownload,
+        path: '/second-video/success-sticker',
+        component: SuccessSticker,
       },
     ]
+  },
+  {
+    path: '/available-download',
+    component: AvailableDownload,
   },
 ]
 
