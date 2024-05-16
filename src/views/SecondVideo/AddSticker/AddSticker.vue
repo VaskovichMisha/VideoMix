@@ -1,6 +1,9 @@
 <template>
   <div class="add-sticker">
-    <span class="add-sticker__title">Добавьте стикер на видео или пропустите шаг</span>
+    <div class="add-sticker__title">
+      <span>Добавьте стикер на видео или пропустите шаг</span>
+      <TextHints text-hint="Добавление стикера на ваше видео не только украшает его и стимулирует взаимодействия со зрителями, но и способствует уникализации. Вы можете использовать эту функцию для вставки водяного знака, анимированного стикера с призывом к действию, логотипа бренда или любого другого изображения. Если вам не нужно добавлять дополнительные элементы, можете пропустить этот шаг." />
+    </div>
     <div class="add-sticker__block">
       <div class="add-sticker__buttons">
         <div class="add-sticker__file">
@@ -25,6 +28,7 @@ import Button from "@/components/UI/Button/Button.vue";
 import { defineEmits } from 'vue'
 import router from "@/router";
 import { useStore } from "vuex";
+import TextHints from "@/components/UI/TextHints/TextHints.vue";
 
 const store = useStore()
 

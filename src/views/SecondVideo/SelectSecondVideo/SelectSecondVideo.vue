@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="select-second-video">
-      <span>Выберите второе видео для склейки или пропустите шаг</span>
+      <div class="select-second-video__title">
+        <span>Выберите второе видео для склейки или пропустите шаг</span>
+        <TextHints
+            text-hint="Склейка вашего видео с другим может значительно увеличить его уникальность. Это также отличная возможность добавить во вторую часть видео призыв к действию или дополнительную информацию, которая может стимулировать взаимодействие зрителей. Если у вас нет подходящего второго видео, вы можете пропустить этот шаг."
+        />
+      </div>
+
       <div class="select-second-video__buttons">
         <div>
           <label for="file_uploader">
@@ -24,6 +30,7 @@ import Button from "@/components/UI/Button/Button.vue";
 
 import router from "@/router";
 import {useStore} from "vuex";
+import TextHints from "@/components/UI/TextHints/TextHints.vue";
 
 const store = useStore()
 

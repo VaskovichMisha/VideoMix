@@ -5,9 +5,17 @@
     font-size: 14px;
     font-weight: 300;
 
-    & > span:first-child {
-        font-size: 16px;
-        font-weight: 500;
+
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        & span {
+            font-size: 16px;
+            font-weight: 500;
+        }
     }
 
     &__buttons {

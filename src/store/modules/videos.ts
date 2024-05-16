@@ -18,7 +18,8 @@ export default {
     intervalId: null,
     taskInfo: '',
     taskId: '',
-    urlDownloadVideo: ''
+    urlDownloadVideo: '',
+    dataVideoProcess: null,
   },
   actions: {
     downloadFile({ commit, state }: { commit: Commit, state: any }, { file, type, key }: { file: any, type: string, key: String }) {
@@ -32,6 +33,7 @@ export default {
       API.videoProcessing(data).then(response => {
         if(response) {
           state.taskId = response.data.task_id
+          state.dataVideoProcess = data
 
           const intervalId = setInterval(() => {
             dispatch('getInfoTask', state.taskId);
@@ -64,17 +66,16 @@ export default {
   mutations: {
     SET_UPLOAD_CHECKBOXES(state: any, checkboxes: Array<any> | null) {
       state.uploadCheckboxes = checkboxes
+      console.log(state.uploadCheckboxes)
     },
     SET_VIDEO_URL(state: any, { key, url }: { key: string, url: string }) {
       if (state.stateVideoProcessing.hasOwnProperty(key)) {
         state.stateVideoProcessing[key] = url
         state.loadingFiles[key] = false
-        console.log(state.loadingFiles)
       }
     },
     CLEAR_LOADING_FILES(state: any, key: string) {
       state.loadingFiles[key] = null
-      console.log(state.loadingFiles)
     },
     SET_INTERVAL_ID(state: any, intervalId: number) {
       state.intervalId = intervalId

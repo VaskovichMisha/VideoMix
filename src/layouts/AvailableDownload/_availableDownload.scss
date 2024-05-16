@@ -134,6 +134,12 @@
         gap: 12px;
     }
 
+    &__btn-copy {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
     &__copy {
         display: flex;
         align-items: center;

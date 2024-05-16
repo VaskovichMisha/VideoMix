@@ -1,0 +1,45 @@
+.text-hints {
+    position: relative;
+
+    &__button {
+
+        & path {
+            transition: all 0.2s;
+        }
+
+        &:hover {
+
+            & path {
+                fill: #A34AF6;
+                transition: all 0.2s;
+            }
+        }
+    }
+
+    &__block {
+        width: 244px;
+        background: #FFFFFF;
+        border: 1px solid #A34AF6;
+        border-radius: 12px;
+        padding: 12px;
+        font-size: 11px;
+        line-height: 120%;
+        color: #404040;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: -20px;
+        z-index: 10;
+
+        //&::before {
+        //    content: "";
+        //    position: absolute;
+        //    top: -6px;
+        //    left: 17px;
+        //    width: 0;
+        //    height: 0;
+        //    border-left: 8px solid transparent;
+        //    border-right: 8px solid transparent;
+        //    border-bottom: 6px solid #A34AF6;
+        //}
+    }
+}

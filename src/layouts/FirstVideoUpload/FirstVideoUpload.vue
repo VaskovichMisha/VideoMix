@@ -22,7 +22,9 @@
                   v-for="checkbox in checkboxes"
                   :key="checkbox.id"
                   :checkbox="checkbox"
+                  :is-hint-visible="visibleHintId === checkbox.id"
                   @change-checkbox="handleCheckboxChange(checkbox.id, $event)"
+                  @toggle-hint="toggleHint(checkbox.id)"
               />
             </div>
           </div>
@@ -51,18 +53,18 @@ import Checkbox from "@/components/UI/Checkbox/Checkbox.vue";
 
 import router from "@/router";
 import { useStore } from 'vuex';
-import { computed, ref, watch} from "vue";
+import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from "vue";
 
 const store = useStore()
 
 const checkboxes = ref([
-  { label: 'Новые метаданные', id: 0, key: 'generate_metadata',  checked: false },
-  { label: 'Ускорить на 1%', id: 1, key: 'speed_percentage_up',  checked: false },
-  { label: 'Наложить шумы', id: 2, key: 'add_noise',  checked: false },
-  { label: 'Замедлить на 1%', id: 3, key: 'speed_percentage_down',  checked: false },
-  { label: 'Наложить невидимый элемент', id: 4, key: 'invisible_object', checked: false },
-  { label: 'Отразить по горизонтали', id: 5, key: 'mirror_image', checked: false },
-  { label: 'Изменить насыщенность', id: 6, key: 'adjust_color', checked: false },
+  { label: 'Новые метаданные', id: 0, key: 'generate_metadata', checked: false, textHint: 'Использование новых метаданных увеличивает уникальность видео и шансы на успешное прохождение через системы модерации дублирующего контента на видеоплощадках.' },
+  { label: 'Ускорить на 1%', id: 1, key: 'speed_percentage_up', checked: false, textHint: 'Небольшое ускорение может изменить временные характеристики видео, помогая ему обходить автоматические системы проверки на совпадение содержания. Это эффективный способ сделать видео уникальным без заметных визуальных изменений.' },
+  { label: 'Наложить шумы', id: 2, key: 'add_noise',  checked: false, textHint: 'Добавление шума в видео изменяет его визуальные характеристики, что может помочь пройти через автоматические системы модерации, обнаруживающие повторяющийся контент.' },
+  { label: 'Замедлить на 1%', id: 3, key: 'speed_percentage_down', checked: false, textHint: 'Незначительное замедление видео на 1% изменяет его продолжительность и может помочь избежать автоматического распознавания дублирующего контента системами модерации.' },
+  { label: 'Наложить невидимый элемент', id: 4, key: 'invisible_object', checked: false, textHint: 'Невидимый элемент поможет добавить уникальности без изменения визуальной части видео.' },
+  { label: 'Отразить по горизонтали', id: 5, key: 'mirror_image', checked: false, textHint: 'Отражение видео изменяет его ориентацию, что может быть полезно для обхода автоматических проверок на сходство с уже известными видео. Если в вашем видео присутствует текст, он также будет отражён и может стать нечитаемым.' },
+  { label: 'Изменить насыщенность', id: 6, key: 'adjust_color', checked: false, textHint: 'Изменение насыщенности может существенно отличать ваше видео от оригинала, что помогает обойти системы идентификации дубликатов.' },
 ])
 
 const fileUploaded = ref<File | null>(null)
@@ -95,6 +97,28 @@ const nextVideo = () => {
   router.push('/second-video')
   store.dispatch('video/uploadCheckboxes', checkboxes)
 }
+
+const visibleHintId = ref<number | null>(null)
+
+const toggleHint = (id: number) => {
+  visibleHintId.value = visibleHintId.value === id ? null : id
+}
+
+const handleClickOutside = (event: Event) => {
+  if (!(event.target as HTMLElement).closest('.checkbox')) {
+    visibleHintId.value = null
+  }
+}
+
+onMounted(() => {
+  nextTick(() => {
+    document.addEventListener('click', handleClickOutside)
+  })
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 </script>
 

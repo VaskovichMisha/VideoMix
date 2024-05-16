@@ -4,8 +4,14 @@
     gap: 40px;
 
     &__title {
-        font-size: 16px;
-        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        & > span {
+            font-size: 16px;
+            font-weight: 500;
+        }
     }
 
     &__block {

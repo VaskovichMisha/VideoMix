@@ -39,7 +39,7 @@
 </template>
 
 <script setup lang="ts">
-import Loader from "@/components/UI/loader/loader.vue";
+import Loader from "@/components/UI/Loader/loader.vue";
 
 import { Ref, ref, defineProps, defineEmits, PropType, onUnmounted, watch, computed } from 'vue';
 import { useStore } from "vuex";

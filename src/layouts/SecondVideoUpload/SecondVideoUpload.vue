@@ -9,6 +9,7 @@
       />
       <div v-if="loadingVideoTwo" class="second-video__load">
         <span>Подождите, пока загрузится второе видео</span>
+
       </div>
       <RouterView
           v-if="!loadingVideoTwo"
@@ -31,6 +32,7 @@ import { onMounted, ref, watch } from "vue";
 
 import { useStore } from 'vuex'
 import checkbox from "@/components/UI/Checkbox/Checkbox.vue";
+import TextHints from "@/components/UI/TextHints/TextHints.vue";
 
 const store = useStore()
 
